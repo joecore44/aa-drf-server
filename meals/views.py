@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
+from .serializers import MealSerializer, FoodSerializer
+from .serializers import TrainerProfileSerializer, ClientProfileSerializer
+from .models import Meal, Food, TrainerProfile, ClientProfile
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -11,8 +16,47 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class ClientProfileViewSet(viewsets.ModelViewSet):
+    
+    queryset = ClientProfile.objects.all()
+    serializer_class = ClientProfileSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+    
+
+
+
+class TrainerProfileViewSet(viewsets.ModelViewSet):
+    
+    queryset = TrainerProfile.objects.all()
+    serializer_class = TrainerProfileSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class MealViewSet(viewsets.ModelViewSet):
+
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class FoodViewSet(viewsets.ModelViewSet):
+
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+
