@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 from .models import Meal, Food, TrainerProfile, ClientProfile
+from .models import ClientCheckin
 from rest_framework import serializers
 
 class TrainerProfileSerializer(serializers.ModelSerializer): 
@@ -11,6 +12,12 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientProfile
         fields = '__all__'
+
+class ClientCheckinSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = ClientCheckin
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

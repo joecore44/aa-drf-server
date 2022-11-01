@@ -21,6 +21,7 @@ class TrainerProfile(models.Model):
 
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE, default='1')
     fullName = models.CharField(max_length=50, null=True)
     company = models.CharField(max_length=100)
     role = models.CharField(max_length=10, default='client')
@@ -32,10 +33,37 @@ class ClientProfile(models.Model):
     status = models.CharField(max_length=24, default='active')
     avatar = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png')
     avatarColor = models.CharField(max_length=25, default='primary')
+    starting_weight = models.IntegerField(null=True)
+    starting_height = models.IntegerField(null=True)
+    starting_body_fat_mass = models.IntegerField(null=True)
+    starting_body_fat_percentage = models.IntegerField(null=True)
+    starting_skeletul_muscle_mass = models.FloatField(null=True)
+    current_weight = models.IntegerField(null=True)
+    current_height = models.IntegerField(null=True)
+    current_body_fat_mass = models.IntegerField(null=True)
+    current_body_fat_percentage = models.IntegerField(null=True)
+    current_skeletul_muscle_mass = models.FloatField(null=True)
+
 
     def __str__(self):
         return f'{self.fullName}'
 
+
+class ClientCheckin(models.Model):
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE)
+    checkin_date = models.DateField(auto_now_add=True)
+    checkin_mood = models.CharField(choices=(('1', '1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')), max_length=1, default='5')
+    back_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
+    front_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
+    side_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
+    weight = models.FloatField()
+    body_fat_mass = models.FloatField(null=True)
+    body_fat_percentage = models.FloatField(null=True)
+    skeletul_muscle_mass = models.FloatField(null=True)
+
+    def __str__(self):
+        return f'{self.client}'
 
 class Meal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

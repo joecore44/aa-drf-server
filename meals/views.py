@@ -7,7 +7,9 @@ from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
 from .serializers import MealSerializer, FoodSerializer
 from .serializers import TrainerProfileSerializer, ClientProfileSerializer
+from .serializers import ClientCheckinSerializer
 from .models import Meal, Food, TrainerProfile, ClientProfile
+from .models import ClientCheckin
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,21 +19,16 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class ClientProfileViewSet(viewsets.ModelViewSet):
-    
-    queryset = ClientProfile.objects.all()
+    trainer_id = 1 # id(1 | 3) TODO turn this into a filter on autheniticated.trainer
+    queryset = ClientProfile.objects.filter(trainer=trainer_id)
     serializer_class = ClientProfileSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-    def perform_update(self, serializer):
-        serializer.save(owner=self.request.user)
-
-    def perform_destroy(self, instance):
-        instance.delete()
     
-
+class ClientCheckinViewSet(viewsets.ModelViewSet):
+    
+    queryset = ClientCheckin.objects.all()
+    serializer_class = ClientCheckinSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class TrainerProfileViewSet(viewsets.ModelViewSet):

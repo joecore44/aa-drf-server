@@ -6,6 +6,7 @@ from meals import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'clients', views.ClientProfileViewSet)
+router.register(r'client/checkins', views.ClientCheckinViewSet)
 router.register(r'trainers', views.TrainerProfileViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'meals', views.MealViewSet)
