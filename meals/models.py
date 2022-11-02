@@ -22,6 +22,7 @@ class TrainerProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE, default='1')
+    public = models.BooleanField(default=True)
     fullName = models.CharField(max_length=50, null=True)
     company = models.CharField(max_length=100)
     role = models.CharField(max_length=10, default='client')
@@ -54,6 +55,7 @@ class ClientCheckin(models.Model):
     trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE)
     checkin_date = models.DateField(auto_now_add=True)
     checkin_mood = models.CharField(choices=(('1', '1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')), max_length=1, default='5')
+    public = models.BooleanField(default=True)
     back_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
     front_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
     side_photo = models.CharField(max_length=100, default='https://personal-portfolio-v2-ae3h.vercel.app/images/formal-image-joe-s.png', null=True)
