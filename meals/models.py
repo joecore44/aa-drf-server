@@ -68,13 +68,12 @@ class ClientCheckin(models.Model):
         return f'{self.client}'
 
 class Meal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    food = models.ManyToManyField('Food', blank=True)
-
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, default=1)
+    trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE, default=1)
     date = models.DateField()
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
-    image = models.CharField(max_length=500)
+    image = models.CharField(max_length=500, default='https://images.immediate.co.uk/production/volatile/sites/30/2020/08/american-style-pancakes-34d56dc.jpg?quality=90&resize=440,400')
     total_calories = models.FloatField(null=True)
     total_protein = models.FloatField(null=True)
     total_carbs = models.FloatField(null=True)
@@ -85,13 +84,15 @@ class Meal(models.Model):
         return self.name
 
 class Food(models.Model):
+    meal = models.ForeignKey(Meal, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     image = models.CharField(max_length=500)
-    calories = models.FloatField()
-    protein = models.FloatField()
-    carbs = models.FloatField()
-    quantity = models.IntegerField()
+    calories = models.FloatField(default=0)
+    protein = models.FloatField(default=0)
+    carbs = models.FloatField(default=0)
+    fats = models.FloatField(default=0)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

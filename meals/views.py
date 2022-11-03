@@ -55,5 +55,23 @@ class FoodViewSet(viewsets.ModelViewSet):
     serializer_class = FoodSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class MealAndFoodViewSet(viewsets.ModelViewSet):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    @action(detail=True, methods=['get'])
+    def foods(self, request, pk=None):
+        meal = self.get_object()
+        foods = meal.foods.all()
+        serializer = FoodSerializer(foods, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def add_food(self, request, pk=None):
+        meal = self.get_object()
+        food = Food.objects.get(pk=request.data['food_id'])
+        meal.foods.add(food)
+        return Response(status=204)
 
 
