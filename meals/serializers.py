@@ -73,7 +73,7 @@ class MealSerializer(serializers.ModelSerializer):
         model = Meal
         fields = ['id',
          'date',
-         'name', 
+         'title', 
          'description',
          'image',
          'total_calories',

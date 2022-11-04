@@ -71,7 +71,7 @@ class Meal(models.Model):
     client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, default=1)
     trainer = models.ForeignKey(TrainerProfile, on_delete=models.CASCADE, default=1)
     date = models.DateField()
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     image = models.CharField(max_length=500, default='https://images.immediate.co.uk/production/volatile/sites/30/2020/08/american-style-pancakes-34d56dc.jpg?quality=90&resize=440,400')
     total_calories = models.FloatField(null=True)
