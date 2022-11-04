@@ -7,9 +7,9 @@ from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
 from .serializers import MealSerializer, FoodSerializer
 from .serializers import TrainerProfileSerializer, ClientProfileSerializer
-from .serializers import ClientCheckinSerializer
+from .serializers import ClientCheckinSerializer, ConditionSerializer
 from .models import Meal, Food, TrainerProfile, ClientProfile
-from .models import ClientCheckin
+from .models import ClientCheckin, Condition
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,7 +23,13 @@ class ClientProfileViewSet(viewsets.ModelViewSet):
     queryset = ClientProfile.objects.filter(trainer=trainer_id)
     serializer_class = ClientProfileSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    
+
+class ClientMedicalConditionViewSet(viewsets.ModelViewSet):
+  
+    queryset = Condition.objects.all()
+    serializer_class = ConditionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 class ClientCheckinViewSet(viewsets.ModelViewSet):
     
     queryset = ClientCheckin.objects.all()
@@ -55,10 +61,6 @@ class FoodViewSet(viewsets.ModelViewSet):
     serializer_class = FoodSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class MealAndFoodViewSet(viewsets.ModelViewSet):
-    queryset = Meal.objects.all()
-    serializer_class = MealSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @action(detail=True, methods=['get'])
     def foods(self, request, pk=None):

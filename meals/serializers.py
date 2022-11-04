@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from .models import Meal, Food, TrainerProfile, ClientProfile
-from .models import ClientCheckin
+from .models import ClientCheckin, Condition
 from rest_framework import serializers
 
 class TrainerProfileSerializer(serializers.ModelSerializer): 
@@ -8,10 +8,43 @@ class TrainerProfileSerializer(serializers.ModelSerializer):
         model = TrainerProfile
         fields = '__all__'
 
-class ClientProfileSerializer(serializers.ModelSerializer): 
+class ConditionSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = Condition
+        fields = '__all__'
+        
+
+class ClientProfileSerializer(serializers.ModelSerializer):
+    condition_set = ConditionSerializer(many=True)
     class Meta:
         model = ClientProfile
-        fields = '__all__'
+        fields = fields = [
+            'id',
+            'public',
+            'fullName',
+            'company',
+            'role',
+            'username',
+            'country',
+            'contact',
+            'email',
+            'currentPlan',
+            'status',
+            'avatar',
+            'starting_weight',
+            'starting_height',
+            'starting_body_fat_mass',
+            'starting_body_fat_percentage',
+            'starting_skeletul_muscle_mass',
+            'current_weight',
+            'current_height',
+            'current_body_fat_mass',
+            'current_body_fat_percentage',
+            'current_skeletul_muscle_mass',
+            'user',
+            'trainer',
+            'condition_set'
+        ]
 
 class ClientCheckinSerializer(serializers.ModelSerializer): 
     class Meta:

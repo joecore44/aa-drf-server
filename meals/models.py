@@ -96,3 +96,11 @@ class Food(models.Model):
 
     def __str__(self):
         return self.name
+
+class Condition(models.Model):
+    client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name
