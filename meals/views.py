@@ -9,8 +9,9 @@ from .serializers import UserSerializer, GroupSerializer
 from .serializers import MealSerializer, FoodSerializer
 from .serializers import TrainerProfileSerializer, ClientProfileSerializer
 from .serializers import ClientCheckinSerializer, ConditionSerializer
+from .serializers import FoodInventorySerializer
 from .models import Meal, Food, TrainerProfile, ClientProfile
-from .models import ClientCheckin, Condition
+from .models import ClientCheckin, Condition, FoodInventory
 
 
 class LargeResultsSetPagination(PageNumberPagination):
@@ -68,6 +69,11 @@ class FoodViewSet(viewsets.ModelViewSet):
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
     #permission_classes = [permissions.IsAuthenticated]
+
+class FoodInventoryViewSet(viewsets.ModelViewSet):
+
+    queryset = FoodInventory.objects.all()
+    serializer_class = FoodInventorySerializer
 
 
     

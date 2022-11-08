@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
@@ -12,6 +14,7 @@ router.register(r'trainers', views.TrainerProfileViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'meals', views.MealViewSet)
 router.register(r'foods', views.FoodViewSet)
+router.register(r'inventory', views.FoodInventoryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,4 +23,6 @@ urlpatterns = [
     #path('clients/<int:pk>/', client_detail, name='client-detail'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
-]
+] 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

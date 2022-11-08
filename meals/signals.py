@@ -27,17 +27,10 @@ def save_client_checkin(sender, instance,  **kwargs):
     
     client.save()
 
-'''
+
 @receiver(post_save, sender=Meal)
 def create_meal(sender, instance, created, **kwargs):
     if created:
         meal = Meal.objects.filter(pk=instance.id).first()
         meal.title = meal.title + ' Calories: ' + str(instance.total_calories)
         meal.save()
-
-@receiver(post_save, sender=Meal)
-def create_meal(sender, instance, **kwargs):
-        meal = Meal.objects.filter(pk=instance.id).first()
-        meal.title = meal.title + ' Calories: ' + str(instance.total_calories)
-        meal.save()
-'''

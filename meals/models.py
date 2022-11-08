@@ -104,3 +104,33 @@ class Condition(models.Model):
 
     def __str__(self):
         return self.name
+
+class FoodInventory(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='images/foods/', null=True, blank=True)
+    serving = models.CharField(max_length=255)
+    calories = models.FloatField(default=0)
+    protein = models.FloatField(default=0)
+    carbs = models.FloatField(default=0)
+    fats = models.FloatField(default=0)
+    saturated_fats = models.FloatField(default=0)
+    trans_fats = models.FloatField(default=0)
+    polyunsaturated_fats = models.FloatField(default=0)
+    monounsaturated_fats = models.FloatField(default=0)
+    cholesterol = models.FloatField(default=0)
+    sodium = models.FloatField(default=0)
+    potassium = models.FloatField(default=0)
+    fiber = models.FloatField(default=0)
+    sugar = models.FloatField(default=0)
+    vitamin_a = models.FloatField(default=0)
+    vitamin_c = models.FloatField(default=0)
+    calcium = models.FloatField(default=0)
+    iron = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+    def __str__(self):
+        return self.name

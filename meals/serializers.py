@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from .models import Meal, Food, TrainerProfile, ClientProfile
-from .models import ClientCheckin, Condition
+from .models import ClientCheckin, Condition, FoodInventory
 from rest_framework import serializers
 
 class TrainerProfileSerializer(serializers.ModelSerializer): 
@@ -122,6 +122,11 @@ class MealSerializer(serializers.ModelSerializer):
             food_instance.quantity = food.get('quantity', food_instance.quantity)
             food_instance.save()
         return instance
+
+class FoodInventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoodInventory
+        fields = '__all__'
 
     
     
