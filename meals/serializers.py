@@ -12,6 +12,8 @@ class ConditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Condition
         fields = '__all__'
+    def create(self, validated_data):
+        return Condition.objects.create(**validated_data)
         
 
 class ClientProfileSerializer(serializers.ModelSerializer):
@@ -92,3 +94,34 @@ class MealSerializer(serializers.ModelSerializer):
         for food in food_data:
             Food.objects.create(meal=meal, **food)
         return meal
+
+    def update(self, instance, validated_data):
+ 
+        food_data = validated_data.pop('food_set')
+        foods = (instance.food_set).all()
+        foods = list(foods)
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.image = validated_data.get('image', instance.image)
+        instance.total_calories = validated_data.get('total_calories', instance.total_calories)
+        instance.total_protein = validated_data.get('total_protein', instance.total_protein)
+        instance.total_carbs = validated_data.get('total_carbs', instance.total_carbs)
+        instance.total_fat = validated_data.get('total_fat', instance.total_fat)
+        instance.client = validated_data.get('client', instance.client)
+        instance.trainer = validated_data.get('trainer', instance.trainer)
+        instance.order = validated_data.get('order', instance.order)
+        instance.save()
+
+        for food in food_data:
+            food_instance = foods.pop(0)
+            food_instance.name = food.get('name', food_instance.name)
+            food_instance.calories = food.get('calories', food_instance.calories)
+            food_instance.protein = food.get('protein', food_instance.protein)
+            food_instance.carbs = food.get('carbs', food_instance.carbs)
+            food_instance.fats = food.get('fats', food_instance.fats)
+            food_instance.quantity = food.get('quantity', food_instance.quantity)
+            food_instance.save()
+        return instance
+
+    
+    

@@ -81,10 +81,10 @@ class Meal(models.Model):
     order = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Food(models.Model):
-    meal = models.ForeignKey(Meal, null=True, on_delete=models.SET_NULL)
+    meal = models.ForeignKey(Meal, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     image = models.CharField(max_length=500)

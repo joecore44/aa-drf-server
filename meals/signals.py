@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import ClientProfile, ClientCheckin, TrainerProfile
+from .models import ClientProfile, ClientCheckin, TrainerProfile, Meal
 
 
 @receiver(post_save, sender=ClientCheckin)
@@ -26,3 +26,18 @@ def save_client_checkin(sender, instance,  **kwargs):
     client.current_skeletul_muscle_mass = instance.skeletul_muscle_mass
     
     client.save()
+
+'''
+@receiver(post_save, sender=Meal)
+def create_meal(sender, instance, created, **kwargs):
+    if created:
+        meal = Meal.objects.filter(pk=instance.id).first()
+        meal.title = meal.title + ' Calories: ' + str(instance.total_calories)
+        meal.save()
+
+@receiver(post_save, sender=Meal)
+def create_meal(sender, instance, **kwargs):
+        meal = Meal.objects.filter(pk=instance.id).first()
+        meal.title = meal.title + ' Calories: ' + str(instance.total_calories)
+        meal.save()
+'''

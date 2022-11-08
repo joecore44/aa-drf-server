@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination 
 from .serializers import UserSerializer, GroupSerializer
 from .serializers import MealSerializer, FoodSerializer
 from .serializers import TrainerProfileSerializer, ClientProfileSerializer
@@ -11,6 +12,11 @@ from .serializers import ClientCheckinSerializer, ConditionSerializer
 from .models import Meal, Food, TrainerProfile, ClientProfile
 from .models import ClientCheckin, Condition
 
+
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 1000
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
 
 class UserViewSet(viewsets.ModelViewSet):
     
@@ -53,27 +59,17 @@ class MealViewSet(viewsets.ModelViewSet):
 
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = LargeResultsSetPagination
+    
+    #permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class FoodViewSet(viewsets.ModelViewSet):
 
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
-    @action(detail=True, methods=['get'])
-    def foods(self, request, pk=None):
-        meal = self.get_object()
-        foods = meal.foods.all()
-        serializer = FoodSerializer(foods, many=True)
-        return Response(serializer.data)
-
-    @action(detail=True, methods=['post'])
-    def add_food(self, request, pk=None):
-        meal = self.get_object()
-        food = Food.objects.get(pk=request.data['food_id'])
-        meal.foods.add(food)
-        return Response(status=204)
+    
 
 
